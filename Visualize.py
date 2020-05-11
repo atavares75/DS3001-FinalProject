@@ -39,3 +39,14 @@ def print_results(y_pred, y_test, model):
 def show_dalc_consumption():
     pass
 
+def absences_box_plot():    
+    raw_data['num_abs'] = np.nan
+    df = [raw_data]
+    for col in df:
+        col.loc[col['absences'] == 0 , 'num_abs'] = '0 absences'
+        col.loc[col['absences'].between(1, 10) , 'num_abs'] = '1 to 10 absences'
+        col.loc[col['absences'].between(11, 20), 'num_abs'] = '16 to 20 absences'
+        col.loc[col['absences'] > 20 , 'num_abs'] = '> 20 absences'
+    plt.figure(figsize=(18,7))
+    plt.title("Box plot for final grades depending on the number of absences")
+    sns.boxplot(y="num_abs", x="G3", data = raw_data , orient="h", palette = 'rainbow')
